@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games for Girls - GamingHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Fixed header styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(15, 15, 19, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* Add padding to body to prevent content from hiding under fixed header */
+        body {
+            padding-top: 80px;
+        }
+
+        /* Root colors */
+        :root {
+            --primary-purple: #a794ff;
+            --dark-purple: #6c4ff3;
+            --bg-dark: #0F0F13;
+            --text-light: #FFFFFF;
+            --orange-badge: #ffa353;
+            --primary-color: #b69eff;
+            --secondary-color: #7e6bff;
+            --accent-color: #ffca80;
+            --background-dark: #0a0a12;
+            --background-card: #13131f;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8d0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 30%, rgba(108, 79, 243, 0.15), transparent 40%),
+                        radial-gradient(circle at 90% 70%, rgba(255, 163, 83, 0.15), transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header specific styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-text-black {
+            color: #FFFFFF;
+        }
+
+        .logo-text-purple {
+            color: #a794ff;
+        }
+
+        .beta-badge {
+            background-color: #ffa353;
+            color: #FFFFFF;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav ul li a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #a794ff;
+        }
+
+        .login-btn button {
+            background-color: #a794ff;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 25px;
+            padding: 0.7rem 2rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .login-btn button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background-color: #6c4ff3;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .login-btn button:hover::before {
+            width: 100%;
+        }
+
+        .login-btn button:hover {
+            box-shadow: 0 5px 15px rgba(108, 79, 243, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Category specific styles */
+        .category-header {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .category-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: rgba(108, 79, 243, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-icon img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .games-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            width: 280px;
+            background: rgba(19, 19, 31, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(182, 158, 255, 0.1);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.3);
+            border-color: rgba(182, 158, 255, 0.3);
+        }
+
+        .game-image {
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .game-card:hover .game-image img {
+            transform: scale(1.1);
+        }
+
+        .game-content {
+            padding: 15px;
+        }
+
+        .game-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #b69eff, #7e6bff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .game-content p {
+            color: #b8b8d0;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .play-button {
+            background: linear-gradient(45deg, #ffca80, #ff9f43);
+            border: none;
+            border-radius: 6px;
+            padding: 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 202, 128, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            width: 100%;
+        }
+
+        .play-button a {
+            display: block;
+            padding: 0.8rem;
+            color: #0a0a12;
+            text-decoration: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        .play-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 202, 128, 0.5);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .games-grid {
+                gap: 15px;
+            }
+            
+            .game-card {
+                width: 240px;
+            }
+            
+            .game-image {
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <h1><span class="logo-text-black">Gaming</span><span class="logo-text-purple">Hub</span></h1>
+            <span class="beta-badge">BETA</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="game.html">Games</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+        <div class="login-btn">
+            <button>Login</button>
+        </div>
+    </header>
+
+    <!-- Category Header -->
+    <div class="category-header">
+        <div class="category-icon">
+            <img src="https://thumbs.dreamstime.com/z/gamers-208105579.jpg" alt="Games for Girls">
+        </div>
+        <h1>Games for Girls</h1>
+        <p>Explore our collection of fun and engaging games for girls</p>
+    </div>
+
+    <!-- Games Grid -->
+    <div class="games-grid">
+        <!-- Game 1 -->
+        <div class="game-card" style="--i: 0">
+            <div class="game-image">
+                <img src="" alt="Fantasy Merger">
+            </div>
+            <div class="game-content">
+                <h3>Fantasy Merger</h3>
+                <p>Merge magical creatures and build your fantasy world</p>
+                <button class="play-button">
+                    <a href=""><i class="fas fa-play-circle"></i> Play Now</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- Game 2 -->
+        <div class="game-card" style="--i: 1">
+            <div class="game-image">
+                <img src="" alt="Beauty Salon">
+            </div>
+            <div class="game-content">
+                <h3>Beauty Salon</h3>
+                <p>Run your own beauty salon and style customers</p>
+                <button class="play-button">
+                    <a href=""><i class="fas fa-play-circle"></i> Play Now</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- Game 3 -->
+        <div class="game-card" style="--i: 2">
+            <div class="game-image">
+                <img src="" alt="Cooking Fever">
+            </div>
+            <div class="game-content">
+                <h3>Cooking Fever</h3>
+                <p>Test your cooking skills in this time management game</p>
+                <button class="play-button">
+                    <a href=""><i class="fas fa-play-circle"></i> Play Now</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- Game 4 -->
+        <div class="game-card" style="--i: 3">
+            <div class="game-image">
+                <img src="" alt="Fashion Designer">
+            </div>
+            <div class="game-content">
+                <h3>Fashion Designer</h3>
+                <p>Create stylish outfits and become a fashion icon</p>
+                <button class="play-button">
+                    <a href=""><i class="fas fa-play-circle"></i> Play Now</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- Game 5 -->
+        <div class="game-card" style="--i: 4">
+            <div class="game-image">
+                <img src="" alt="Pet Salon">
+            </div>
+            <div class="game-content">
+                <h3>Pet Salon</h3>
+                <p>Take care of adorable pets in your own pet salon</p>
+                <button class="play-button">
+                    <a href=""><i class="fas fa-play-circle"></i> Play Now</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- Game 6 -->
+        <div class="game-card" style="--i: 5">
+            <div class="game-image">
+                <img src="" alt="My Talking Angela">
+            </div>
+            <div class="game-content">
+                <h3>My Talking Angela</h3>
+                <p>Adopt and care for your virtual cat Angela</p>
+                <button class="play-button">
+                    <a href=""><i class="fas fa-play-circle"></i> Play Now</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Your ultimate destination for gaming</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="game.html">Games</a>
+                <a href="index.html#about">About</a>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 GamingHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
